@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VTG Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+    }
+    input {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>VTG Calculator</h1>
+
+<label>Current Volume:
+  <input type="number" id="volume" step="0.01" value="5">
+</label>
+<br>
+
+<label>Current Gravity:
+  <input type="number" id="gravity" step="0.001" value="1.050">
+</label>
+<br>
+
+<label>Terminal Gravity:
+  <input type="number" id="terminalGravity" step="0.001" value="1.010">
+</label>
+<br><br>
+
+<button onclick="calculateVTG()">Calculate</button>
+
+<h2 id="vtgResult"></h2>
+<h2 id="adjustedResult"></h2>
+
+<script>
+function calculateVTG() {
+  const volume = parseFloat(document.getElementById("volume").value);
+  const gravity = parseFloat(document.getElementById("gravity").value);
+  const terminalGravity = parseFloat(document.getElementById("terminalGravity").value);
+
+  if (!volume || !gravity || !terminalGravity) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  if (terminalGravity === 0) {
+    alert("Terminal gravity cannot be zero.");
+    return;
+  }
+
+  const vtg = (volume * gravity) / terminalGravity;
+  const adjusted = vtg - (31 * volume);
+
+  document.getElementById("vtgResult").innerText =
+    "VTG: " + vtg.toFixed(3);
+
+  document.getElementById("adjustedResult").innerText =
+    "VTG - (31 × Current Volume): " + adjusted.toFixed(3);
+}
+</script>
+
+</body>
+</html>
