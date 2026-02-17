@@ -79,10 +79,10 @@ function calculateVTG() {
   const adjusted = vtg - volume;
 
   document.getElementById("vtgResult").innerText =
-    "Kettle Volume (gallons) at Terminal Gravity: " + vtg.toFixed(3);
+    "Kettle Volume (gallons) at Terminal Gravity: " + vtg.toFixed(1);
 
   document.getElementById("adjustedResult").innerText =
-    "Gallons to Add to Kettle: " + adjusted.toFixed(3);
+    "Gallons to Add to Kettle: " + adjusted.toFixed(1);
 }
 </script>
 
