@@ -3,33 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>VTG Calculator</title>
+
   <style>
     body {
+      background-color: #0b1f3a; /* dark blue */
+      color: white;
       font-family: Arial, sans-serif;
       max-width: 500px;
       margin: 40px auto;
+      position: relative;
     }
-    input {
+
+    input, button {
+      padding: 6px;
       margin-bottom: 10px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* Top-right image */
+    .top-image {
+      position: fixed;
+      top: 20px;
+      right: 50px;
+      width: 200px; /* adjust size here */
     }
   </style>
 </head>
+
 <body>
+
+<img src="tlb_logo.jpeg" class="top-image" alt="Logo">
 
 <h1>VTG Calculator</h1>
 
-<label>Current Volume:
-  <input type="number" id="volume" step="0.01" value="5">
+<label>Current Volume (gallons):
+  <input type="number" id="volume" step="0.01" value="279">
 </label>
 <br>
 
 <label>Current Gravity:
-  <input type="number" id="gravity" step="0.001" value="1.050">
+  <input type="number" id="gravity" step="0.001" value="">
 </label>
 <br>
 
 <label>Terminal Gravity:
-  <input type="number" id="terminalGravity" step="0.001" value="1.010">
+  <input type="number" id="terminalGravity" step="0.001" value="">
 </label>
 <br><br>
 
@@ -55,13 +76,13 @@ function calculateVTG() {
   }
 
   const vtg = (volume * gravity) / terminalGravity;
-  const adjusted = vtg - (31 * volume);
+  const adjusted = vtg - volume;
 
   document.getElementById("vtgResult").innerText =
-    "VTG: " + vtg.toFixed(3);
+    "Kettle Volume (gallons) at Terminal Gravity: " + vtg.toFixed(3);
 
   document.getElementById("adjustedResult").innerText =
-    "VTG - (31 × Current Volume): " + adjusted.toFixed(3);
+    "Gallons to Add to Kettle: " + adjusted.toFixed(3);
 }
 </script>
 
