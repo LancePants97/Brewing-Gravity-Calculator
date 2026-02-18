@@ -2,62 +2,156 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>VTG Calculator</title>
+  <title>Top Up Calculator</title>
 
   <style>
     body {
-      background-color: #0b1f3a; /* dark blue */
-      color: white;
-      font-family: Arial, sans-serif;
-      max-width: 500px;
-      margin: 40px auto;
+      background: linear-gradient(145deg, #0b1f3a, #122c52);
+      font-family: "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 40px;
+      color: #f4f6f9;
+      display: flex;
+      justify-content: center;
+    }
+
+    .dashboard {
+      background: #162d4f;
+      border-radius: 12px;
+      padding: 30px;
+      width: 520px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
       position: relative;
     }
 
-    input, button {
-      padding: 6px;
-      margin-bottom: 10px;
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      width: 90px;
+      opacity: 0.9;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 26px;
+      letter-spacing: 1px;
+      color: #ffffff;
+    }
+
+    .subheading {
+      color: #a8c1e6;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #c7d8f5;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #2f4f7f;
+      background-color: #0f2342;
+      color: white;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #5fa8ff;
+      box-shadow: 0 0 6px rgba(95,168,255,0.5);
     }
 
     button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #3da9fc, #2b6cb0);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
       cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s ease-in-out;
     }
 
-    /* Top-right image */
-    .top-image {
-      position: fixed;
-      top: 20px;
-      right: 50px;
-      width: 200px; /* adjust size here */
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
+
+    .results {
+      margin-top: 25px;
+      padding: 20px;
+      background: #0f2342;
+      border-radius: 10px;
+      border: 1px solid #2f4f7f;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .result-value {
+      font-weight: bold;
+      color: #3da9fc;
+    }
+
   </style>
 </head>
 
 <body>
 
-<img src="tlb_logo.jpeg" class="top-image" alt="Logo">
+  <div class="dashboard">
+    <img src="tlb_logo.jpeg" class="logo" alt="Logo">
 
-<h1>Top Up Calculator</h1>
+    <h1>Top Up Calculator</h1>
+    <div class="subheading">Kettle Volume & Gravity Adjustment Tool</div>
 
-<label>Current Volume (gallons):
-  <input type="number" id="volume" step="0.1" value="279">
-</label>
-<br>
+    <div class="input-group">
+      <label>Current Volume (gallons)</label>
+      <input type="number" id="volume" step="0.1" value="279">
+    </div>
 
-<label>Current Gravity:
-  <input type="number" id="gravity" step="0.1" value="">
-</label>
-<br>
+    <div class="input-group">
+      <label>Current Gravity</label>
+      <input type="number" id="gravity" step="0.1">
+    </div>
 
-<label>Target Gravity (0.5 less than Post-Boil Gravity):
-  <input type="number" id="terminalGravity" step="0.1" value="">
-</label>
-<br><br>
+    <div class="input-group">
+      <label>Target Gravity (0.5 less than Post-Boil Gravity)</label>
+      <input type="number" id="terminalGravity" step="0.1">
+    </div>
 
-<button onclick="calculateVTG()">Calculate</button>
+    <button onclick="calculateVTG()">Calculate</button>
 
-<h2 id="vtgResult"></h2>
-<h2 id="adjustedResult"></h2>
+    <div class="results" id="resultsBox" style="display:none;">
+      <div class="result-item">
+        <span>Kettle Volume @ Target Gravity:</span>
+        <span class="result-value" id="vtgResult"></span>
+      </div>
+      <div class="result-item">
+        <span>Gallons to Add:</span>
+        <span class="result-value" id="adjustedResult"></span>
+      </div>
+    </div>
+
+  </div>
 
 <script>
 function calculateVTG() {
@@ -71,18 +165,17 @@ function calculateVTG() {
   }
 
   if (terminalGravity === 0) {
-    alert("Terminal gravity cannot be zero.");
+    alert("Target gravity cannot be zero.");
     return;
   }
 
   const vtg = (volume * gravity) / terminalGravity;
   const adjusted = vtg - volume;
 
-  document.getElementById("vtgResult").innerText =
-    "Kettle Volume (gallons) at Terminal Gravity: " + vtg.toFixed(1);
+  document.getElementById("vtgResult").innerText = vtg.toFixed(1) + " gal";
+  document.getElementById("adjustedResult").innerText = adjusted.toFixed(1) + " gal";
 
-  document.getElementById("adjustedResult").innerText =
-    "Gallons to Add to Kettle: " + adjusted.toFixed(1);
+  document.getElementById("resultsBox").style.display = "block";
 }
 </script>
 
